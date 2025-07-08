@@ -18,14 +18,12 @@ app.use(express.static(path.join(__dirname, './')));
 
 // Enhanced CORS configuration
 const corsOptions = {
-  origin: [
-    'https://chatastro-wo.vercel.app',
-    'https://chatastro-wo.onrender.com'
-    ],
+  origin: ['https://chatastro-wo.vercel.app'], 
   credentials: true,
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
   allowedHeaders: ['Content-Type', 'Authorization']
 };
+
 
 app.use(cors(corsOptions));
 app.use(express.json({ limit: '10mb' }));
