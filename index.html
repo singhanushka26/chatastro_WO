@@ -919,7 +919,6 @@
     <script>
         // Configuration - Connect to backend
         // const API_BASE_URL = 'http://localhost:3000/api';
-        // const API_BASE_URL = 'https://chatastro-backend.vercel.app/api';
 
 
 
@@ -1129,11 +1128,6 @@ function showBirthForm() {
                 <label>Time of Birth</label>
                 <div style="display: flex; gap: 10px;">
                     <input type="time" id="tob" required style="flex: 1;">
-                    <select id="tobPeriod" required style="width: 80px;">
-                        <option value="" disabled selected>AM/PM</option>
-                        <option value="AM">AM</option>
-                        <option value="PM">PM</option>
-                    </select>
                 </div>
             </div>
             <div class="form-field">
@@ -1370,11 +1364,6 @@ function showMessage(type, message) {
                         <label>Time of Birth</label>
                         <div style="display: flex; gap: 10px;">
                             <input type="time" id="tob" required style="flex: 1;">
-                            <select id="tobPeriod" required style="width: 80px;">
-                                <option value="" disabled selected>AM/PM</option>
-                                <option value="AM">AM</option>
-                                <option value="PM">PM</option>
-                            </select>
                         </div>
                     </div>
                     <div class="form-field">
@@ -1392,12 +1381,12 @@ function showMessage(type, message) {
                     </div>
                     <button type="button" class="start-btn" onclick="submitBirthDetails()" style="width: 100%; margin-top: 15px;">Generate My Horoscope ✨</button>
                 </div>
-                
             `;
             
             chatMessages.appendChild(formScreen);
             setupBirthFormValidation();
         }
+
 
         // Navigation functions
         function goToWelcome() {
@@ -1775,7 +1764,6 @@ function showMessage(type, message) {
         function setupBirthFormValidation() {
             const dobField = document.getElementById('dob');
             const tobField = document.getElementById('tob');
-            const tobPeriod = document.getElementById('tobPeriod');
             const pobField = document.getElementById('pob');
             const genderField = document.getElementById('gender');
 
@@ -1839,11 +1827,10 @@ function showMessage(type, message) {
         async function submitBirthDetails() {
             const dob = document.getElementById('dob');
             const tob = document.getElementById('tob');
-            const tobPeriod = document.getElementById('tobPeriod');
             const pob = document.getElementById('pob');
             const gender = document.getElementById('gender');
             
-            [dob, tob, tobPeriod, pob, gender].forEach(field => {
+            [dob, tob, pob, gender].forEach(field => {
                 field.classList.remove('error');
                 field.classList.remove('filled');
             });
@@ -1857,13 +1844,11 @@ function showMessage(type, message) {
                 dob.classList.add('filled');
             }
             
-            if (!tob.value || !tobPeriod.value) {
-                if (!tob.value) tob.classList.add('error');
-                if (!tobPeriod.value) tobPeriod.classList.add('error');
+            if (!tob.value) {
+                tob.classList.add('error');
                 hasError = true;
             } else {
                 tob.classList.add('filled');
-                tobPeriod.classList.add('filled');
             }
             
             if (!pob.value.trim()) {
@@ -1893,20 +1878,20 @@ function showMessage(type, message) {
             const fullName = userDetails?.name || localStorage.getItem("userName") || "Guest";
 
             // Convert 12-hour format to 24-hour format for backend
-            function convertTo24Hour(time12h, period) {
-                const [hours, minutes] = time12h.split(':');
-                let hour24 = parseInt(hours);
+            // function convertTo24Hour(time12h, period) {
+            //     const [hours, minutes] = time12h.split(':');
+            //     let hour24 = parseInt(hours);
                 
-                if (period === 'AM' && hour24 === 12) {
-                    hour24 = 0;
-                } else if (period === 'PM' && hour24 !== 12) {
-                    hour24 += 12;
-                }
+            //     if (period === 'AM' && hour24 === 12) {
+            //         hour24 = 0;
+            //     } else if (period === 'PM' && hour24 !== 12) {
+            //         hour24 += 12;
+            //     }
                 
-                return `${hour24.toString().padStart(2, '0')}:${minutes}`;
-            }
+            //     return `${hour24.toString().padStart(2, '0')}:${minutes}`;
+            // }
             
-            const birthTime24h = convertTo24Hour(tob.value, tobPeriod.value);
+            const birthTime24h = tob.value; 
             
             
             const userData = {
@@ -1937,7 +1922,7 @@ function showMessage(type, message) {
                         ...userDetails,
                         ...result.user,
                         dob: dob.value, 
-                        tob: `${tob.value} ${tobPeriod.value}`, // Keep original format for display
+                        tob: tob.value, 
                         pob: pob.value, 
                         gender: gender.value 
                     };
