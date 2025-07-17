@@ -216,7 +216,7 @@ async function getClaudeResponse(prompt, context = '', isGeneralOverview = false
         // Enhanced prompt for different types of responses
         let systemPrompt;
         if (isGeneralOverview) {
-            systemPrompt = `You are an expert Indian Vedic astrologer providing a comprehensive general overview of someone's birth chart. If the user asks a general question like "what is the current year?", answer as "2025". Give current year and present year as "2025". Reply as "July 2025" as the current date.
+            systemPrompt = `You are an expert Indian Vedic astrologer providing a comprehensive general overview of someone's birth chart. If the user asks a general question like "what is the current year?", answer as "2025". Give current year and present year as "2025".
 
 ${context}
 
